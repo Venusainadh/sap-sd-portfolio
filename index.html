@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Parupalli Venu Sai Nadh — SAP SD &amp; Order-to-Cash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c2430;
+      --ink-soft: #4a5364;
+      --paper: #eef2ec;
+      --paper-deep: #e3e9df;
+      --card: #fbfcfa;
+      --amber: #b8863a;
+      --amber-deep: #96692a;
+      --teal: #2f6f7f;
+      --teal-deep: #235964;
+      --line: #cdd6c8;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(76px + env(safe-area-inset-top, 0px));
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .mono {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* NAV */
+    nav.topnav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      top: env(safe-area-inset-top, 0px);
+      background: rgba(238, 242, 236, 0.86);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav.topnav .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .brand {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: 1.15rem;
+      letter-spacing: 0.2px;
+    }
+
+    .brand span {
+      color: var(--amber);
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 26px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navlinks a {
+      text-decoration: none;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 3px;
+      transition: color .2s, border-color .2s;
+    }
+
+    .navlinks a:hover {
+      color: var(--ink);
+      border-color: var(--amber);
+    }
+
+    .navlinks {}
+
+    @media (max-width: 720px) {
+      .navlinks {
+        display: none;
+      }
+    }
+
+    /* HERO */
+    .hero {
+      padding: 84px 0 64px;
+    }
+
+    .hero .wrap {
+      display: grid;
+      grid-template-columns: 1.25fr 0.8fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    @media (max-width: 820px) {
+      .hero .wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 48px 0 40px;
+      }
+    }
+
+    .eyebrow-line {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p.lede {
+      max-width: 52ch;
+      margin-top: 20px;
+      font-size: 1.08rem;
+      color: var(--ink-soft);
+    }
+
+    /* MINI PIPELINE — hero signature motion */
+    .pipeline {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      margin-top: 34px;
+    }
+
+    .p-node {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.6px;
+      padding: 8px 14px;
+      border: 1.4px solid var(--ink);
+      border-radius: 999px;
+      background: var(--card);
+      position: relative;
+      z-index: 2;
+    }
+
+    .p-node.cloud {
+      border-color: var(--teal);
+      color: var(--teal-deep);
+    }
+
+    .p-track {
+      height: 2px;
+      width: 56px;
+      flex: 0 0 auto;
+    }
+
+    .p-track.solid {
+      background: var(--amber);
+    }
+
+    .p-track.dashed {
+      height: 0;
+      border-top: 2px dashed var(--teal);
+    }
+
+    .p-dot {
+      position: absolute;
+      top: 50%;
+      left: 4px;
+      width: 9px;
+      height: 9px;
+      margin-top: -4.5px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(184, 134, 58, 0.16);
+      animation: pipeFlow 3.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes pipeFlow {
+      0% {
+        left: 4px;
+        background: var(--amber);
+        box-shadow: 0 0 0 5px rgba(184, 134, 58, 0.16);
+      }
+
+      46% {
+        left: 136px;
+        background: var(--amber);
+        box-shadow: 0 0 0 5px rgba(184, 134, 58, 0.16);
+      }
+
+      54% {
+        background: var(--teal);
+        box-shadow: 0 0 0 5px rgba(47, 111, 127, 0.16);
+      }
+
+      100% {
+        left: 266px;
+        background: var(--teal);
+        box-shadow: 0 0 0 5px rgba(47, 111, 127, 0.16);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .pipeline {
+        transform: scale(0.88);
+        transform-origin: left center;
+      }
+    }
+
+    .cta-row {
+      margin-top: 30px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 3px;
+      font-size: 0.95rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-solid {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .btn-solid:hover {
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    }
+
+    .btn-outline {
+      border: 1.4px solid var(--ink);
+      color: var(--ink);
+    }
+
+    /* Email button only: ink hover sweep (matches LinkedIn technique) */
+    .cta-row .btn-email {
+      background-image: linear-gradient(var(--ink), var(--ink));
+      background-repeat: no-repeat;
+      background-size: 0% 100%;
+      background-position: left center;
+      transition: background-size .3s ease, color .25s ease, border-color .25s ease, transform .15s ease, box-shadow .25s ease;
+    }
+
+    .cta-row .btn-email:hover,
+    .cta-row .btn-email:focus-visible {
+      background-size: 100% 100%;
+      color: var(--paper);
+      border-color: var(--ink);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+      outline: none;
+    }
+
+    /* Resume button only: amber hover sweep (amber = real/held in this site's grammar) */
+    .cta-row .btn-resume {
+      background-image: linear-gradient(var(--amber), var(--amber));
+      background-repeat: no-repeat;
+      background-size: 0% 100%;
+      background-position: left center;
+      transition: background-size .3s ease, color .25s ease, border-color .25s ease, transform .15s ease, box-shadow .25s ease;
+    }
+
+    .cta-row .btn-resume:hover,
+    .cta-row .btn-resume:focus-visible {
+      background-size: 100% 100%;
+      color: #fff;
+      border-color: var(--amber-deep);
+      box-shadow: 0 6px 18px rgba(184, 134, 58, .35);
+      outline: none;
+    }
+
+    /* LinkedIn button only: brand-accent hover sweep */
+    .topnav .btn-linkedin {
+      background-image: linear-gradient(#0A66C2, #0A66C2);
+      background-repeat: no-repeat;
+      background-size: 0% 100%;
+      background-position: left center;
+      transition: background-size .3s ease, color .25s ease, border-color .25s ease, transform .15s ease, box-shadow .25s ease;
+    }
+
+    .topnav .btn-linkedin:hover,
+    .topnav .btn-linkedin:focus-visible {
+      background-size: 100% 100%;
+      color: #fff;
+      border-color: #0A66C2;
+      box-shadow: 0 6px 18px rgba(10, 102, 194, .35);
+      outline: none;
+    }
+
+    .portrait-wrap {
+      position: relative;
+      justify-self: center;
+    }
+
+    .portrait-frame {
+      width: 260px;
+      height: 320px;
+      border: 2px solid var(--ink);
+      padding: 10px;
+      background: var(--card);
+      position: relative;
+    }
+
+    .portrait-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(6%);
+    }
+
+    .portrait-tag {
+      position: absolute;
+      bottom: -16px;
+      left: -16px;
+      background: var(--amber);
+      color: #fff;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      padding: 6px 10px;
+      letter-spacing: 0.3px;
+    }
+
+    /* SECTION generic */
+    section {
+      padding: 68px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      max-width: 60ch;
+      margin-bottom: 40px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.5rem, 2.6vw, 2.05rem);
+      font-weight: 600;
+    }
+
+    .section-head p {
+      margin-top: 12px;
+      color: var(--ink-soft);
+      max-width: 58ch;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    @media (max-width: 760px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .about-grid p {
+      color: var(--ink-soft);
+      max-width: 56ch;
+      margin: 0 0 16px;
+    }
+
+    .fact-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .fact-list li {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 14px;
+      font-size: 0.95rem;
+      border-bottom: 1px dashed var(--line);
+      padding-bottom: 12px;
+    }
+
+    .fact-list li .k {
+      color: var(--ink-soft);
+      font-size: 0.85rem;
+      text-transform: none;
+    }
+
+    .fact-list li .v {
+      font-weight: 500;
+    }
+
+    /* FLOW */
+    .flow-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 8px;
+    }
+
+    .flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      min-width: 760px;
+    }
+
+    .flow-step {
+      flex: 1;
+      position: relative;
+      padding: 24px 20px 20px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      opacity: 0;
+      animation: flowIn .6s ease forwards;
+    }
+
+    .flow-step:nth-child(1) {
+      animation-delay: .05s;
+    }
+
+    .flow-step:nth-child(3) {
+      animation-delay: .2s;
+    }
+
+    .flow-step:nth-child(5) {
+      animation-delay: .35s;
+    }
+
+    .flow-step:nth-child(7) {
+      animation-delay: .5s;
+    }
+
+    .flow-step:nth-child(9) {
+      animation-delay: .65s;
+    }
+
+    @keyframes flowIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .flow-step+.flow-step {
+      border-left: none;
+    }
+
+    .flow-step .num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--amber-deep);
+    }
+
+    .flow-step h4 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.08rem;
+      margin: 10px 0 6px;
+      font-weight: 600;
+    }
+
+    .flow-step .code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .flow-step p {
+      font-size: 0.86rem;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    .flow-step:last-child {
+      background: var(--teal);
+      border-color: var(--teal-deep);
+    }
+
+    .flow-step:last-child .num,
+    .flow-step:last-child .code {
+      color: #d7e8ea;
+    }
+
+    .flow-step:last-child h4,
+    .flow-step:last-child p {
+      color: #fff;
+    }
+
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      color: var(--ink-soft);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* SKILLS */
+    .skills-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 760px) {
+      .skills-cols {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .skill-panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 26px 26px 22px;
+    }
+
+    .skill-panel.now {
+      border-left: 4px solid var(--amber);
+    }
+
+    .skill-panel.next {
+      border-left: 4px solid var(--teal);
+      border-style: dashed;
+      border-width: 1px 1px 1px 4px;
+    }
+
+    .skill-panel h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .skill-panel .tagline {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      margin-bottom: 16px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 0.82rem;
+      padding: 6px 12px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .skill-panel.next .pill {
+      background: transparent;
+      border-style: dashed;
+    }
+
+    .skill-sub {
+      margin-top: 20px;
+    }
+
+    .skill-sub .tagline {
+      margin-bottom: 10px;
+    }
+
+    /* EXPERIENCE */
+    .exp-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 28px;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .exp-item:last-child {
+      border-bottom: none;
+    }
+
+    @media (max-width: 640px) {
+      .exp-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+
+    .exp-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      padding-top: 4px;
+    }
+
+    .exp-body h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .exp-role {
+      color: var(--amber-deep);
+      font-size: 0.92rem;
+      margin: 4px 0 12px;
+      font-style: italic;
+      font-family: 'Fraunces', serif;
+    }
+
+    .exp-body ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+    }
+
+    .exp-body li {
+      margin-bottom: 6px;
+    }
+
+    .exp-body li .mono {
+      color: var(--ink);
+    }
+
+    /* CERTS */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .stamp {
+      padding: 20px 18px;
+      background: var(--card);
+      position: relative;
+    }
+
+    .stamp.held {
+      border: 2px solid var(--amber);
+    }
+
+    .stamp.held::after {
+      content: "HELD";
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--amber-deep);
+      letter-spacing: 1px;
+    }
+
+    .stamp.pending {
+      border: 2px dashed var(--teal);
+      opacity: 0.9;
+    }
+
+    .stamp.pending::after {
+      content: "IN PROGRESS";
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--teal-deep);
+      letter-spacing: 1px;
+    }
+
+    .stamp h4 {
+      font-family: 'Fraunces', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 8px;
+      padding-right: 70px;
+    }
+
+    .stamp .id {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+    }
+
+    /* PROJECTS */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    @media (max-width: 760px) {
+      .proj-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .blueprint {
+      background: var(--teal);
+      color: #eaf4f5;
+      border: 1px dashed #9fd0d6;
+      padding: 26px;
+      position: relative;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .blueprint .status {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.5px;
+      color: #cdeef1;
+      border: 1px solid #cdeef1;
+      display: inline-block;
+      padding: 3px 9px;
+      margin-bottom: 14px;
+    }
+
+    .blueprint h3 {
+      color: #fff;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+    }
+
+    .blueprint p {
+      font-size: 0.92rem;
+      color: #dff1f2;
+      margin: 0 0 12px;
+    }
+
+    .blueprint .stack {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.76rem;
+      color: #b9e2e6;
+    }
+
+    /* EDUCATION */
+    .edu-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 18px 0;
+    }
+
+    .edu-row h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .edu-row .school {
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+
+    .edu-row .meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+    }
+
+    /* CONTACT / FOOTER */
+    footer {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 64px 0 40px;
+    }
+
+    footer h2 {
+      color: var(--paper);
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      max-width: 16ch;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 40px;
+      margin-top: 34px;
+    }
+
+    @media (max-width: 700px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .contact-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-list a {
+      text-decoration: none;
+      border-bottom: 1px solid rgba(238, 242, 236, 0.3);
+      padding-bottom: 3px;
+      transition: border-color .2s, color .2s;
+    }
+
+    .contact-list a:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .contact-list .k {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: #9aa79a;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .footer-note {
+      font-size: 0.85rem;
+      color: #9aa79a;
+    }
+
+    .copyright {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(238, 242, 236, 0.15);
+      font-size: 0.78rem;
+      color: #7c897c;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .flow-step {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="topnav">
+    <div class="wrap">
+      <div class="brand">Venu Sai Nadh<span>.</span></div>
+      <ul class="navlinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#flow">O2C Flow</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#projects">Roadmap</a></li>
+      </ul>
+      <a class="btn btn-outline btn-linkedin" style="padding:8px 16px; font-size:0.85rem;"
+        href="https://www.linkedin.com/in/venusainadh/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow-line mono">SAP SD &middot; Order-to-Cash &middot; Khammam, India</div>
+        <h1>Order in.<br>Cash out.<br>Cloud, next.</h1>
+        <p class="lede">I run Order-to-Cash operations in SAP SD at Cognizant Technology Solutions — and I'm building
+          toward SAP HDI and HANA Cloud Modeling, one real skill at a time.</p>
+        <div class="pipeline" aria-hidden="true">
+          <span class="p-node">ORDER</span>
+          <span class="p-track solid"></span>
+          <span class="p-node">CASH</span>
+          <span class="p-track dashed"></span>
+          <span class="p-node cloud">CLOUD</span>
+          <span class="p-dot"></span>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-solid" href="#experience">See my experience</a>
+          <a class="btn btn-outline btn-resume" href="Parupalli_Venu_Sai_Nadh_SAP_SD_Resume.pdf"
+            download="Parupalli_Venu_Sai_Nadh_SAP_SD_Resume.pdf">Download Resume</a>
+          <a class="btn btn-outline btn-email" href="mailto:parupallivenusainadh@gmail.com">Email me</a>
+        </div>
+      </div>
+      <div class="portrait-wrap">
+        <div class="portrait-frame">
+          <img src="headshot.jpeg" alt="Parupalli Venu Sai Nadh">
+        </div>
+        <div class="portrait-tag mono">KLU '25</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>About</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>I graduated from Koneru Lakshmaiah Education Foundation with a B.Tech in Computer Science and Information
+            Technology, and I now work in SAP SD process operations at Cognizant Technology Solutions, on a
+            Microsoft-aligned FinTech engagement.</p>
+          <p>Every day I sit close to how sales orders turn into billed, reconciled cash — and that proximity is exactly
+            what's pulling me toward SAP HANA Cloud and HDI. I'm building that knowledge deliberately, alongside my day
+            job, rather than claiming it before it's real.</p>
+        </div>
+        <ul class="fact-list">
+          <li><span class="k">Based in</span><span class="v">Khammam, India</span></li>
+          <li><span class="k">Currently</span><span class="v">SAP SD / O2C, Cognizant Technology Solutions</span></li>
+          <li><span class="k">Education</span><span class="v">B.Tech CSIT, KLU — CGPA 8.6, 2025</span></li>
+          <li><span class="k">Certified in</span><span class="v">Power BI, Microsoft Azure Fundamentals</span></li>
+          <li><span class="k">Working toward</span><span class="v">SAP HDI &amp; HANA Cloud Modeling</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="flow">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>The Order-to-Cash pipeline I run daily</h2>
+        <p>Every SAP SD transaction I touch sits somewhere on this line. Hover a step for what actually happens there.
+        </p>
+      </div>
+      <div class="flow-wrap">
+        <div class="flow" id="flowRow">
+          <div class="flow-step"><span class="num mono">01</span>
+            <h4>Sales Order</h4><span class="code">VA01 &middot; VA02</span>
+            <p>Create and update orders — customer, item, and pricing checks against business rules.</p>
+          </div>
+          <div class="flow-arrow mono">&rarr;</div>
+          <div class="flow-step"><span class="num mono">02</span>
+            <h4>Delivery</h4><span class="code">Goods issue</span>
+            <p>Order moves into fulfilment — the handoff from sales to shipment.</p>
+          </div>
+          <div class="flow-arrow mono">&rarr;</div>
+          <div class="flow-step"><span class="num mono">03</span>
+            <h4>Billing</h4><span class="code">VF01 &middot; VF03 &middot; VF05</span>
+            <p>Generate, audit, and reconcile invoices; monitor open billing backlogs.</p>
+          </div>
+          <div class="flow-arrow mono">&rarr;</div>
+          <div class="flow-step"><span class="num mono">04</span>
+            <h4>Rebate &amp; Credit</h4><span class="code">ZSDREBATS</span>
+            <p>Custom-transaction reconciliation for client rebate and credit-note settlements.</p>
+          </div>
+          <div class="flow-arrow mono">&rarr;</div>
+          <div class="flow-step"><span class="num mono">05</span>
+            <h4>Cash</h4><span class="code">SLA closure</span>
+            <p>Transaction closed out accurately and on time — the goal of the whole chain.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>What I know now, and what I'm building</h2>
+        <p>I've kept these separate on purpose — one is hands-on today, the other is a real, active learning path.</p>
+      </div>
+      <div class="skills-cols">
+        <div class="skill-panel now">
+          <h3>Hands-on today</h3>
+          <div class="tagline">SAP SD &amp; Order-to-Cash</div>
+          <div class="pill-list">
+            <span class="pill">Sales Order Mgmt</span>
+            <span class="pill">VA01</span>
+            <span class="pill">VA02</span>
+            <span class="pill">Billing &amp; Invoicing</span>
+            <span class="pill">VF01</span>
+            <span class="pill">VF03</span>
+            <span class="pill">VF05</span>
+            <span class="pill">Credit Memo / Rebate</span>
+            <span class="pill">ZSDREBATS</span>
+            <span class="pill">Master Data</span>
+          </div>
+          <div class="skill-sub">
+            <div class="tagline">Certified tools</div>
+            <div class="pill-list">
+              <span class="pill">Power BI</span>
+              <span class="pill">Azure Fundamentals</span>
+            </div>
+          </div>
+          <div class="skill-sub">
+            <div class="tagline">Core technical</div>
+            <div class="pill-list">
+              <span class="pill">SQL</span>
+              <span class="pill">Python</span>
+              <span class="pill">Core Java</span>
+              <span class="pill">HTML/CSS</span>
+              <span class="pill">MySQL</span>
+            </div>
+          </div>
+        </div>
+        <div class="skill-panel next">
+          <h3>Building toward</h3>
+          <div class="tagline">SAP HDI &amp; HANA Cloud Modeling</div>
+          <div class="pill-list">
+            <span class="pill">SPRO</span>
+            <span class="pill">Pricing Procedure</span>
+            <span class="pill">S/4HANA Sales</span>
+            <span class="pill">SAP HANA Cloud</span>
+            <span class="pill">HDI Containers</span>
+            <span class="pill">Calculation Views</span>
+            <span class="pill">SAP BAS</span>
+            <span class="pill">SQLScript</span>
+            <span class="pill">SAP BTP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Experience</h2>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">Sep 2025 —<br>Present</div>
+        <div class="exp-body">
+          <h3>Cognizant Technology Solutions (CTS)</h3>
+          <div class="exp-role">FinTech / Business Process Operations — Microsoft-aligned engagement</div>
+          <ul>
+            <li>Execute daily SAP SD sales-order processing using <span class="mono">VA01</span> and <span
+                class="mono">VA02</span>, verifying customer, item, and pricing data against business rules.</li>
+            <li>Generate, audit, and reconcile billing documents via <span class="mono">VF01</span> and <span
+                class="mono">VF03</span>, and monitor open billing backlogs using <span class="mono">VF05</span>.</li>
+            <li>Process credit-note and rebate reconciliation workflows within Order-to-Cash using the custom
+              transaction <span class="mono">ZSDREBATS</span>.</li>
+            <li>Maintain strong SLA adherence and transaction accuracy on an enterprise, Microsoft-aligned FinTech
+              engagement.</li>
+            <li>Collaborate with cross-functional teams to troubleshoot invoice blocks and posting discrepancies.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Certifications</h2>
+        <p>Solid border means it's held today. Dashed means I'm actively working toward it.</p>
+      </div>
+      <div class="cert-grid">
+        <div class="stamp held">
+          <h4>Power BI</h4>
+          <div class="id mono">ID: 00027531</div>
+        </div>
+        <div class="stamp held">
+          <h4>Microsoft Certified: Azure Fundamentals</h4>
+          <div class="id mono">AZ-900</div>
+        </div>
+        <div class="stamp held">
+          <h4>CMT Domain Fundamentals for Technology</h4>
+          <div class="id mono">201-Intermediate &middot; PS092672</div>
+        </div>
+        <div class="stamp pending">
+          <h4>SAP Certified Associate — HANA Cloud Modeling</h4>
+          <div class="id mono">Preparing now &middot; C_HCMOD</div>
+        </div>
+        <div class="stamp pending">
+          <h4>SAP Certified Associate — S/4HANA Sales</h4>
+          <div class="id mono">Target 2026 &middot; C_TS462</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Roadmap projects</h2>
+        <p>Blueprints for what I'm building next — not finished yet, and labeled that way on purpose.</p>
+      </div>
+      <div class="proj-grid">
+        <div class="blueprint">
+          <div class="status">PLANNED &middot; NOT YET BUILT</div>
+          <h3>O2C Sales Analytics Model on SAP HANA Cloud</h3>
+          <p>Configure an HDI container in SAP BTP via Business Application Studio to model sales and billing data —
+            Dimension and Cube calculation views joining sales documents (VBAK/VBAP) with billing items (VBRK/VBRP),
+            connected to Power BI for KPI reporting.</p>
+          <div class="stack">HDI &middot; Calculation Views &middot; SAP BTP &middot; Power BI</div>
+        </div>
+        <div class="blueprint">
+          <div class="status">PLANNED &middot; NOT YET BUILT</div>
+          <h3>Rebate &amp; Credit Memo Reconciliation Engine</h3>
+          <p>Build an HDI backend data model to reconcile custom rebate settlements (in the style of ZSDREBATS) against
+            FI ledger entries, using design-time artifacts and SQLScript procedures to flag discrepancies.</p>
+          <div class="stack">HDI &middot; SQLScript &middot; .hdbtable &middot; .hdbgrants</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Education</h2>
+      </div>
+      <div class="edu-row">
+        <div>
+          <h3>B.Tech, Computer Science and Information Technology</h3>
+          <div class="school">Koneru Lakshmaiah Education Foundation (KL University), Vijayawada, India</div>
+        </div>
+        <div class="meta">2025 &middot; CGPA 8.6</div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <h2>Open to SAP SD and SAP HDI Consultant roles.</h2>
+      <div class="footer-grid">
+        <ul class="contact-list">
+          <li><span class="k mono">EMAIL</span><a
+              href="mailto:parupallivenusainadh@gmail.com">parupallivenusainadh@gmail.com</a></li>
+          <li><span class="k mono">LINKEDIN</span><a href="https://www.linkedin.com/in/venusainadh/" target="_blank"
+              rel="noopener">linkedin.com/in/venusainadh</a></li>
+          <li><span class="k mono">RESUME</span><a href="Parupalli_Venu_Sai_Nadh_SAP_SD_Resume.pdf" target="_blank"
+              rel="noopener">Download resume (PDF)</a></li>
+          <li><span class="k mono">LOCATION</span><span>Khammam, India</span></li>
+        </ul>
+        <p class="footer-note">Currently on a Microsoft-aligned SAP SD engagement at Cognizant Technology Solutions.
+          Actively preparing for SAP Certified Associate — HANA Cloud Modeling.</p>
+      </div>
+      <div class="copyright">
+        <span>&copy; 2026 Parupalli Venu Sai Nadh</span>
+        <span>Built with real experience — nothing here is a placeholder project.</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
